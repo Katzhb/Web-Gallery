@@ -33,8 +33,11 @@
 <script src="js/alert.js"></script>
 
 <body>
+<!-- Sideabr settings -->
 <div id="sidebar" class="sidebar collapsed">
     <div class="sidebar-tabs">
+
+        <!-- Sideabr tab list settings -->
         <ul role="tablist">
             <li id="searchLi" onclick="searchClick()"><a href="#authorSearch" role="tab">
                 <img id="searchGlass" src="css/images/search.png" style="height: 25px;width:25px"></a>
@@ -55,7 +58,11 @@
         </ul>
 
     </div>
+
+    <!-- Sideabr tab panel initialization  -->
     <div class="sidebar-content" style="color: #0f0f0f; max-width: 300px;overflow-y: hidden">
+
+        <!-- the panel of Author Search -->
         <div class="sidebar-pane" id="authorSearch">
             <h1 class="sidebar-header" style="padding-top: 16px">
                 <span class="sidebar-close" style="padding-top: 16px;padding-left: 5px;">
@@ -68,11 +75,10 @@
                     </div>
                 </form>
             </div>
-            <div id="searchResult" style="padding-left: 20px;height:600px;overflow-y: scroll">
-            </div>
-
+            <div id="searchResult" style="padding-left: 20px;height:600px;overflow-y: scroll"></div>
         </div>
 
+        <!-- the panel of Neoclassicism -->
         <div class="sidebar-pane" id="neoAuthorList">
             <h1 class="sidebar-header"><span class="sidebar-close" style="padding-top: 16px;padding-left: 5px;">
                 <span class="glyphicon glyphicon-remove"></span></span><img src="css/images/neopp.jpg"
@@ -290,7 +296,7 @@
                 </div>
             </div>
         </div>
-
+        <!-- the panel of Impressionism -->
         <div class="sidebar-pane" id="impAuthorList">
             <h1 class="sidebar-header"><span class="sidebar-close" style="padding-top: 16px;padding-left: 5px;">
                 <span class="glyphicon glyphicon-remove"></span></span><img src="css/images/impp.jpg"
@@ -576,11 +582,10 @@
                 </div>
             </div>
         </div>
-
+        <!-- the panel of Realism -->
         <div class="sidebar-pane" id="realAuthorList">
             <h1 class="sidebar-header"><span class="sidebar-close" style="padding-top: 16px;padding-left: 5px;">
-                <span class="glyphicon glyphicon-remove"></span></span><img src="css/images/realpp.jpg"
-                                                                            style="height: 70px;width:170px">
+                <span class="glyphicon glyphicon-remove"></span></span><img src="css/images/realpp.jpg" style="height: 70px;width:170px">
             </h1>
             <div class="tabbable tabs-left" style="height:600px;overflow-y: scroll;">
                 <ul class="nav nav-tabs">
@@ -885,7 +890,7 @@
                 </div>
             </div>
         </div>
-
+        <!-- the panel of Romanticism -->
         <div class="sidebar-pane" id="romAuthorList">
             <h1 class="sidebar-header"><span class="sidebar-close" style="padding-top: 16px;padding-left: 5px;">
                 <span class="glyphicon glyphicon-remove"></span></span><img src="css/images/rompp.jpg"
@@ -1244,7 +1249,7 @@
     </div>
 </div>
 
-
+<!-- Create Map -->
 <div id="basicMap" class="sidebar-map" style="height: 100vh"></div>
 <script>
 
@@ -1267,11 +1272,15 @@
         id: 'mapbox.streets'
     }).addTo(mymap);
 
+    <!-- define variable sidebar -->
     var sidebar = L.control.sidebar('sidebar').addTo(mymap);
 
+    <!-- define variable timeline -->
     var sliderControl = L.control.sliderControl();
     var testlayer = L.geoJson();
 
+
+    <!-- respectively customize the characteristics marker of Neoclassicism, Impressionism, Realism, Romanticism -->
     var neoIcon = L.icon({
         iconUrl: "css/images/neo.png",
         iconSize: [30, 35],
@@ -1293,6 +1302,7 @@
         iconAnchor: [12, 41]
     });
 
+    <!-- respectively define cluster marker groups of  Neoclassicism, Impressionism, Realism, Romanticism -->
     var neoLayer = L.markerClusterGroup({showCoverageOnHover: false});
     var impLayer = L.markerClusterGroup({showCoverageOnHover: false});
     var realLayer = L.markerClusterGroup({showCoverageOnHover: false});
@@ -1305,6 +1315,7 @@
 
     var currentMarker;
 
+    <!-- define authormaker to be used when a partiular author name is clicked in the 5 panels -->
     var authorLayer = L.markerClusterGroup({showCoverageOnHover: false});
     var authorMarker;
     var authorClickValue;
@@ -1319,6 +1330,7 @@
     realImg.style.opacity = 0.5;
     romImg.style.opacity = 0.5;
 
+    <!-- define detail window -->
     var win;
 
     var customOptions = {
@@ -1367,10 +1379,9 @@
                 layer.openPopup([mlat, mlng]);
             }
         });
-
-        //console.log(neoLayer.length);
     }
 
+    <!-- define Author Search panel interaction and search algorithm -->
     $('#authorName').on('keyup', function () {
         authorSearch();
     });
@@ -1456,6 +1467,7 @@
         $("[data-toggle='popover']").popover();
     });
 
+    <!-- define recommdation list -->
     var recommendation = L.control.custom({
         position: 'bottomleft',
         content: '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title"><span><img src="css/images/museum.png" style="height: 20px;margin-bottom:3px;"></span> Collections</h4><div id ="recommendName"></div></div><div id="recommendationL" class="panel-body"></div></div>',
@@ -1474,6 +1486,7 @@
 
     });
 
+    <!-- define resetView and show timeline buttons and their click function  -->
     L.control.custom({
         position: 'topleft',
         content: '<button type="button" class="btn btn-default" data-trigger="hover" data-toggle="tooltip" data-placement="right" id="resetView" title="Reset View" style="padding: 4px 8px;border: hidden">' +
@@ -1484,12 +1497,10 @@
             padding: '0px'
         }
     }).addTo(mymap);
-
     $('#resetView').click(function () {
         mymap.setView([40.505, -1], 2.35);
 
     });
-
     L.control.custom({
         position: 'topleft',
         content: '<button type="button" class="btn btn-default" data-trigger="hover" data-toggle="tooltip" data-placement="right" id="showSlider" title="Show Timeline" style="padding: 4px 8px;border: hidden">' +
@@ -1544,6 +1555,7 @@
         }
     });
 
+    <!-- add listeners to all author names in the 4 genres panels -->
     d3.select("#neoList").selectAll("li").on("click", function () {
 
         var author = d3.select(this).text();
@@ -1569,6 +1581,7 @@
 
     });
 
+    <!-- define and initialise the timeline -->
     $.getJSON("wellData.json", function (json) {
 
         testlayer = L.geoJson(json, {
@@ -1611,6 +1624,7 @@
         return b.count - a.count;
     }
 
+    <!-- customize the detail window content -->
     function paintingPopup(url, detail) {
 
         var arr, author, bd, date, plocation, genre, technique, ptitle;
@@ -1637,7 +1651,9 @@
             });
     }
 
+    <!-- the click function called when a author is clicked in the Neoclassicism panel -->
     function neoAuthorClick(author) {
+
 
         neoLayer.clearLayers();
         authorLayer.clearLayers();
@@ -1652,6 +1668,7 @@
             var museumList = [];
             var m = 0;
 
+
             for (var i = 0; i < dataset.length; i++) {
 
                 if (dataset[i].properties.AUTHOR === author) {
@@ -1659,6 +1676,8 @@
                     lat = dataset[i].geometry.coordinates[1];
                     lng = dataset[i].geometry.coordinates[0];
 
+
+                    <!-- create recommendation collection list content, count the current satisfiable museum name and sort the museum list-->
                     if (m !== 0) {
 
                         if (dataset[i].properties.LOCATION !== dataset[i - 1].properties.LOCATION) {
@@ -1680,6 +1699,7 @@
                     var f = popflag.indexOf(lat);
                     var t, tt, hh;
 
+                    <!-- create corresponding marker under this click conditions and define the popup content-->
                     if (f === -1) {
 
                         t = dataset[i].properties.AUTHOR + ";" + dataset[i].properties.BORNDIED + ";" + dataset[i].properties.time + ";" + dataset[i].properties.LOCATION + ";" + dataset[i].properties.Genre + ";" + dataset[i].properties.TECHNIQUE + ";" + dataset[i].properties.TITLE;
@@ -1738,6 +1758,7 @@
         });
         recommendation.addTo(mymap);
     }
+    <!-- the click function called when a author is clicked in the Impressionism panel -->
     function impAuthorClick(author) {
 
         impLayer.clearLayers();
@@ -1760,6 +1781,7 @@
                         lat = dataset[i].geometry.coordinates[1];
                         lng = dataset[i].geometry.coordinates[0];
 
+                        <!-- create recommendation collection list content, count the current satisfiable museum name and sort the museum list-->
                         if (m !== 0) {
 
                             if (dataset[i].properties.LOCATION !== dataset[i - 1].properties.LOCATION) {
@@ -1781,6 +1803,7 @@
                         var f = popflag.indexOf(lat);
                         var t, tt, hh;
 
+                        <!-- create corresponding marker under this click conditions and define the popup content-->
                         if (f === -1) {
 
                             t = dataset[i].properties.AUTHOR + ";" + dataset[i].properties.BORNDIED + ";" + dataset[i].properties.time + ";" + dataset[i].properties.LOCATION + ";" + dataset[i].properties.Genre + ";" + dataset[i].properties.TECHNIQUE + ";" + dataset[i].properties.TITLE;
@@ -1839,6 +1862,7 @@
         );
         recommendation.addTo(mymap);
     }
+    <!-- the click function called when a author is clicked in the Realism panel -->
     function realAuthorClick(author) {
 
         realLayer.clearLayers();
@@ -1862,6 +1886,7 @@
                         lat = dataset[i].geometry.coordinates[1];
                         lng = dataset[i].geometry.coordinates[0];
 
+                        <!-- create recommendation collection list content, count the current satisfiable museum name and sort the museum list-->
                         if (m !== 0) {
 
                             if (dataset[i].properties.LOCATION !== dataset[i - 1].properties.LOCATION) {
@@ -1883,6 +1908,7 @@
                         var f = popflag.indexOf(lat);
                         var t, tt, hh;
 
+                        <!-- create corresponding marker under this click conditions and define the popup content-->
                         if (f === -1) {
 
                             t = dataset[i].properties.AUTHOR + ";" + dataset[i].properties.BORNDIED + ";" + dataset[i].properties.time + ";" + dataset[i].properties.LOCATION + ";" + dataset[i].properties.Genre + ";" + dataset[i].properties.TECHNIQUE + ";" + dataset[i].properties.TITLE;
@@ -1940,6 +1966,7 @@
         );
         recommendation.addTo(mymap);
     }
+    <!-- the click function called when a author is clicked in the Romanticism panel -->
     function romAuthorClick(author) {
 
         romLayer.clearLayers();
@@ -1962,6 +1989,7 @@
                         lat = dataset[i].geometry.coordinates[1];
                         lng = dataset[i].geometry.coordinates[0];
 
+                        <!-- create recommendation collection list content, count the current satisfiable museum name and sort the museum list-->
                         if (m !== 0) {
 
                             if (dataset[i].properties.LOCATION !== dataset[i - 1].properties.LOCATION) {
@@ -1983,6 +2011,7 @@
                         var f = popflag.indexOf(lat);
                         var t, tt, hh;
 
+                        <!-- create corresponding marker under this click conditions and define the popup content-->
                         if (f === -1) {
 
                             t = dataset[i].properties.AUTHOR + ";" + dataset[i].properties.BORNDIED + ";" + dataset[i].properties.time + ";" + dataset[i].properties.LOCATION + ";" + dataset[i].properties.Genre + ";" + dataset[i].properties.TECHNIQUE + ";" + dataset[i].properties.TITLE;
@@ -2043,6 +2072,7 @@
         recommendation.addTo(mymap);
     }
 
+    <!-- the content function called when the Neoclassicism panel shows-->
     function neoClick() {
 
         sliderControl.onRemove(mymap);
@@ -2077,6 +2107,7 @@
                     lat = dataset[i].geometry.coordinates[1];
                     lng = dataset[i].geometry.coordinates[0];
 
+                    <!-- create recommendation collection list content, count the current satisfiable museum name and sort the museum list-->
                     if (m !== 0) {
 
                         if (dataset[i].properties.LOCATION !== dataset[i - 1].properties.LOCATION) {
@@ -2101,6 +2132,7 @@
                     var f = popflag.indexOf(lat);
                     var t, tt;
 
+                    <!-- create corresponding marker under this click conditions and define the popup content-->
                     if (f === -1) {
 
                         t = dataset[i].properties.AUTHOR + ";" + dataset[i].properties.BORNDIED + ";" + dataset[i].properties.time + ";" + dataset[i].properties.LOCATION + ";" + dataset[i].properties.Genre + ";" + dataset[i].properties.TECHNIQUE + ";" + dataset[i].properties.TITLE;
@@ -2160,6 +2192,7 @@
 
         recommendation.addTo(mymap);
     }
+    <!-- the content function called when the Impressionism panel shows-->
     function impClick() {
 
         sliderControl.onRemove(mymap);
@@ -2196,6 +2229,7 @@
                     impMarker = L.marker(new L.latLng(lat, lng), {icon: impIcon});
                     impMarker.on('click', clickZoom);
 
+                    <!-- create recommendation collection list content, count the current satisfiable museum name and sort the museum list-->
                     if (m !== 0) {
 
                         if (dataset[i].properties.LOCATION !== dataset[i - 1].properties.LOCATION) {
@@ -2217,6 +2251,7 @@
                     var f = popflag.indexOf(lat);
                     var t, tt;
 
+                    <!-- create corresponding marker under this click conditions and define the popup content-->
                     if (f === -1) {
 
                         t = dataset[i].properties.AUTHOR + ";" + dataset[i].properties.BORNDIED + ";" + dataset[i].properties.time + ";" + dataset[i].properties.LOCATION + ";" + dataset[i].properties.Genre + ";" + dataset[i].properties.TECHNIQUE + ";" + dataset[i].properties.TITLE;
@@ -2274,6 +2309,7 @@
         });
         recommendation.addTo(mymap);
     }
+    <!-- the content function called when the Realism panel shows-->
     function realClick() {
 
         sliderControl.onRemove(mymap);
@@ -2307,6 +2343,7 @@
                     lat = dataset[i].geometry.coordinates[1];
                     lng = dataset[i].geometry.coordinates[0];
 
+                    <!-- create recommendation collection list content, count the current satisfiable museum name and sort the museum list-->
                     if (m !== 0) {
 
                         if (dataset[i].properties.LOCATION !== dataset[i - 1].properties.LOCATION) {
@@ -2331,6 +2368,7 @@
                     var f = popflag.indexOf(lat);
                     var t, tt;
 
+                    <!-- create corresponding marker under this click conditions and define the popup content-->
                     if (f === -1) {
 
                         t = dataset[i].properties.AUTHOR + ";" + dataset[i].properties.BORNDIED + ";" + dataset[i].properties.time + ";" + dataset[i].properties.LOCATION + ";" + dataset[i].properties.Genre + ";" + dataset[i].properties.TECHNIQUE + ";" + dataset[i].properties.TITLE;
@@ -2385,6 +2423,7 @@
         });
         recommendation.addTo(mymap);
     }
+    <!-- the content function called when the Romanticism panel shows-->
     function romClick() {
 
         sliderControl.onRemove(mymap);
@@ -2418,6 +2457,7 @@
                     lat = dataset[i].geometry.coordinates[1];
                     lng = dataset[i].geometry.coordinates[0];
 
+                    <!-- create recommendation collection list content, count the current satisfiable museum name and sort the museum list-->
                     if (m !== 0) {
 
                         if (dataset[i].properties.LOCATION !== dataset[i - 1].properties.LOCATION) {
@@ -2442,6 +2482,7 @@
                     var f = popflag.indexOf(lat);
                     var t, tt;
 
+                    <!-- create corresponding marker under this click conditions and define the popup content-->
                     if (f === -1) {
 
                         t = dataset[i].properties.AUTHOR + ";" + dataset[i].properties.BORNDIED + ";" + dataset[i].properties.time + ";" + dataset[i].properties.LOCATION + ";" + dataset[i].properties.Genre + ";" + dataset[i].properties.TECHNIQUE + ";" + dataset[i].properties.TITLE;

@@ -56,9 +56,6 @@ L.Control.SliderControl = L.Control.extend({
         var sliderContainer = L.DomUtil.create('div', 'slider', this._container);
         $(sliderContainer).append('<div id="leaflet-slider" class="mySlider"><span><img src="css/images/timeline.png" style="width: 885px; margin-top: -51px;margin-left: -35px;" </span><div class="ui-slider-handle" ></div><div id="slider-timestamp" class="mySliderTimestamp"></div></div>');
 
-
-
-
         //Prevent map panning/zooming while using the slider
         $(sliderContainer).mousedown(function () {
             map.dragging.disable();
@@ -78,14 +75,6 @@ L.Control.SliderControl = L.Control.extend({
 
         //If a layer has been provided: calculate the min and max values for the slider
         if (this._layer) {
-            /*var index_temp = 0;
-             this._layer.eachLayer(function (layer) {
-             //console.log(layer);
-             options.markers[index_temp] = layer;
-             ++index_temp;
-             });
-             options.maxValue = index_temp - 1;
-             this.options = options;*/
 
             var flags = [], unique_values = [], len;
             this._layer.eachLayer(function (layer) {
@@ -101,20 +90,15 @@ L.Control.SliderControl = L.Control.extend({
             for (var i = 0; i < unique_values.length; i++) {
                 all_features[i] = [];
             }
-            //console.log(all_features);
 
-            //console.log(this._layer.getLayers().length)
             var layers = this._layer.getLayers();
 
             for (var i = 0; i < layers.length; i++) {
 
-                //console.log(layers[i].feature.properties.time);
                 var index = unique_values.indexOf(layers[i].feature.properties.time);
-                //console.log(index);
                 all_features[index].push(layers[i]);// add the items of the same year to one features group
 
             }
-
 
             for (var i = 0; i < all_features.length; i++) {
                 var poplist = [];
@@ -169,14 +153,14 @@ L.Control.SliderControl = L.Control.extend({
 
     onRemove: function (map) {
         //Delete all markers which where added via the slider and remove the slider div
-        //for (i = this.options.minValue; i < this.options.maxValue; i++)
+
         for (var i = 0; i < this.options.unique_time_values.length; i++) {
             map.removeLayer(this.options.markers[i]);
         }
         $('#leaflet-slider').remove();
 
         this.options.lastvalue = this.options.currentvalue;
-        //  console.log(this.options.lastvalue);
+
     },
 
     startSlider: function () {
@@ -191,7 +175,7 @@ L.Control.SliderControl = L.Control.extend({
         $("#leaflet-slider").slider({
             range: _options.range,
             value: _options.lastvalue,
-            //value: _options.minValue_options.lastvalue,
+
             values: _options.values,
             min: _options.minValue,
             max: _options.maxValue,
@@ -199,26 +183,18 @@ L.Control.SliderControl = L.Control.extend({
             create: function (e, ui) {
                 if (_options.lastvalue !== 0) {
                     ui.value = _options.lastvalue;
-                    //   console.log("hihi");
                     var map = _options.map;
                     map.addLayer(_options.markers[_options.lastvalue]);
                     $('#slider-timestamp').html(
                         _extractTimestamp(_options.unique_time_values[ui.value], _options));
                 }
             },
-            /*
-             change: function(e, ui ) {
-             $('#slider-timestamp').html(
-             _extractTimestamp(_options.unique_time_values[ui.value], _options));
 
-             });
-             },
-             */
             slide: function (e, ui) {
                 var map = _options.map;
                 var fg = L.featureGroup();
                 if (!!_options.markers[ui.value]) {
-                    //console.log('inside');
+
                     // If there is no time property, this line has to be removed (or exchanged with a different property)
                     if (_options.markers[ui.value].feature !== undefined) {
                         if (_options.markers[ui.value].feature.properties[_options.timeAttribute]) {
@@ -230,7 +206,7 @@ L.Control.SliderControl = L.Control.extend({
                     } else {
                         // set by leaflet Vector Layers
                         if (_options.unique_time_values[ui.value]) {
-                            //console.log(ui.value);
+
                             if (_options.markers[ui.value]) $('#slider-timestamp').html(
                                 _extractTimestamp(_options.unique_time_values[ui.value], _options));
                         } else {
@@ -262,7 +238,7 @@ L.Control.SliderControl = L.Control.extend({
                             }
                         }
                     } else if (_options.follow) {
-                        //if(_options.lastvalue !== 0 ){ui.value=_options.lastvalue;console.log("hihi");}
+
                         for (i = ui.value - _options.follow + 1; i <= ui.value; i++) {
                             if (_options.markers[i]) {
                                 map.addLayer(_options.markers[i]);
@@ -277,17 +253,14 @@ L.Control.SliderControl = L.Control.extend({
                             }
                         }
                     }
-                }
-                ;
+                };
                 if (_options.rezoom) {
                     map.fitBounds(fg.getBounds(), {
                         maxZoom: _options.rezoom
                     });
                 }
                 _options.currentvalue = ui.value;
-
             }
-
         });
 
         if (!_options.range && _options.alwaysShowDate) {
@@ -296,16 +269,6 @@ L.Control.SliderControl = L.Control.extend({
         for (i = _options.minValue; i < index_start; i++) {
             _options.map.addLayer(_options.markers[i]);
         }
-        // console.log("here"+this.options.follow);
-        /*
-         if(_options.markers[this.options.lastvalue]) {
-         _options.map.addLayer(_options.markers[i]);
-         //fg.addLayer(_options.markers[i]);
-         }
-         */
-
-        //this.options.currentvalue=value;
-        //console.log(this.options.currentvalue);
     }
 });
 
